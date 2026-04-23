@@ -46,6 +46,7 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_ID,
     torch_dtype=torch.float32,
+    attn_implementation="eager",
 ).to(device)
 print("✅ Model loaded! It's currently a general-purpose 'it' model.")
 
@@ -59,7 +60,7 @@ test_prompt_text = "Rewrite professionally: This code is garbage and broke the b
 ask_to_proceed("Test the Base Model")
 print(f"\n[PROMPT]: {test_prompt_text}")
 messages = [{"role": "user", "content": test_prompt_text}]
-inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(device)
+inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt", return_dict=True).to(device)
 
 print("Generating...")
 with torch.no_grad():
@@ -151,7 +152,7 @@ args = SFTConfig(
     per_device_train_batch_size=4,
     gradient_accumulation_steps=2,
     learning_rate=2e-4,
-    num_train_epochs=3,
+    num_train_epochs=15,
     logging_steps=5,
     eval_strategy="steps",
     eval_steps=10,

@@ -37,14 +37,15 @@ MODEL_ID = "google/gemma-3-270m-it"
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 model = AutoModelForCausalLM.from_pretrained(
     MODEL_ID,
-    dtype=torch.float32,
+    torch_dtype=torch.float32,
+    attn_implementation="eager",
 ).to(device)
 print("✅ Model loaded!")
 
 # --- BASE MODEL EXAMPLE ---
 test_prompt_text = "Rewrite professionally: This code is garbage and broke the build."
 messages = [{"role": "user", "content": test_prompt_text}]
-inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt").to(device)
+inputs = tokenizer.apply_chat_template(messages, tokenize=True, add_generation_prompt=True, return_tensors="pt", return_dict=True).to(device)
 
 print("\n[PROMPT]:", test_prompt_text)
 print("Generating baseline...")

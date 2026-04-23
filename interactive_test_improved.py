@@ -54,7 +54,8 @@ while True:
         messages, 
         tokenize=True, 
         add_generation_prompt=True, 
-        return_tensors="pt"
+        return_tensors="pt",
+        return_dict=True
     ).to(device)
 
     # Generate - BASE MODEL

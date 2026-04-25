@@ -1,0 +1,419 @@
+import json
+
+data=[
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Hi, I just wanted to remind you about the meeting scheduled for today at 3 PM. Please make sure to join on time.",
+    "output": "Reminder about the 3 PM meeting today. Please join on time."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I am writing to check if there are any updates regarding the task we discussed earlier this week.",
+    "output": "Checking for updates on the task we discussed earlier this week."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please review the attached file and share your feedback at your earliest convenience so we can proceed further.",
+    "output": "Please review the attached file and share your feedback."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to let you know that I have completed the work assigned to me and have shared the updated file for your review.",
+    "output": "I have completed the work and shared the updated file for review."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Could you please take a look at this issue when you get a chance and let me know what you think?",
+    "output": "Please review this issue and share your thoughts."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I am reaching out to confirm whether the data has been updated in the system as discussed.",
+    "output": "Confirming if the data has been updated as discussed."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please let me know if you are available for a quick call today so we can discuss this in more detail.",
+    "output": "Let me know if you’re available for a quick call today."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to check if everything is on track for the deadline we agreed upon.",
+    "output": "Checking if everything is on track for the agreed deadline."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please share the latest version of the document whenever you have it ready.",
+    "output": "Please share the latest version when ready."
+  },
+
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Hi, just following up on my previous message regarding the status of this task. Please update me when you can.",
+    "output": "Following up on the status of this task. Please update me."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Can you please review the changes I made and confirm if everything looks good?",
+    "output": "Please review the changes and confirm if everything looks good."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to remind you to update the tracker once you complete your tasks.",
+    "output": "Reminder to update the tracker once tasks are complete."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please let me know if you need any help or clarification regarding this task.",
+    "output": "Let me know if you need any help or clarification."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I am sharing the report for your reference. Please review it and let me know if any updates are required.",
+    "output": "Sharing the report. Please review and let me know if updates are needed."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Could you please confirm if you have received the file I sent earlier?",
+    "output": "Please confirm if you received the file."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to check if the issue has been resolved or if further action is needed.",
+    "output": "Checking if the issue is resolved or if further action is needed."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please make sure to complete this task by the end of the day as it is important for the next steps.",
+    "output": "Please complete this task by end of day as it is important."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Let me know your availability so we can schedule a meeting to discuss this further.",
+    "output": "Share your availability to schedule a meeting."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to follow up again regarding the pending items from last week.",
+    "output": "Following up on pending items from last week."
+  },
+
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please review the attached document carefully and provide your feedback at your earliest convenience.",
+    "output": "Please review the attached document and share your feedback."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Hi, I hope you are doing well. I wanted to check if you had any updates regarding the issue we discussed.",
+    "output": "Checking for updates on the discussed issue."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please let me know once you have completed the assigned task so we can proceed further.",
+    "output": "Let me know once the task is completed."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I am sharing the latest updates with you. Please review and confirm if everything looks good.",
+    "output": "Sharing the latest updates. Please review and confirm."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Could you please check the data again and confirm if it is accurate?",
+    "output": "Please recheck the data and confirm accuracy."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to remind you about the deadline for this task which is approaching soon.",
+    "output": "Reminder that the deadline for this task is approaching."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please provide an update on the progress of this task when you get a chance.",
+    "output": "Please provide a progress update."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Let me know if there are any blockers or issues that need to be addressed.",
+    "output": "Let me know if there are any blockers."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I am reaching out to check if the deployment was completed successfully.",
+    "output": "Checking if the deployment was completed successfully."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please confirm if you have updated the document as per the latest requirements.",
+    "output": "Please confirm if the document has been updated as required."
+  },
+
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to follow up regarding the request I shared earlier this week.",
+    "output": "Following up on the request shared earlier this week."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please share the updated file once you have made the required changes.",
+    "output": "Please share the updated file after making changes."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Could you please confirm your availability for the meeting scheduled tomorrow?",
+    "output": "Please confirm your availability for tomorrow’s meeting."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to check if you had any feedback on the proposal I shared.",
+    "output": "Checking for feedback on the proposal."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please review the logs and let me know if you notice any issues.",
+    "output": "Please review the logs and report any issues."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Let me know if you need any additional information from my side.",
+    "output": "Let me know if you need any additional information."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I am sharing the details as discussed in the meeting.",
+    "output": "Sharing the details discussed in the meeting."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Please ensure that all tasks are completed before the end of the day.",
+    "output": "Please complete all tasks by end of day."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "Could you please double-check the numbers and confirm if they are correct?",
+    "output": "Please double-check the numbers and confirm accuracy."
+  },
+  {
+    "instruction": "Shorten this email while keeping the main meaning.",
+    "input": "I wanted to follow up on the action items from the last meeting.",
+    "output": "Following up on action items from the last meeting."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send me the report.",
+    "output": "Hi, could you please share the report when you get a chance? It would be helpful for me to review the details and proceed with the next steps. Thank you!"
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Update me.",
+    "output": "Hi, could you please provide an update on the current status of this task when you have a moment? It would help me understand the progress and plan accordingly."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Fix this issue.",
+    "output": "Hi, could you please take a look at this issue and resolve it at your earliest convenience? Let me know if you need any additional details from my side."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Join the meeting.",
+    "output": "Hi, just a reminder to please join the scheduled meeting at the designated time. Your input will be valuable to the discussion."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send the file.",
+    "output": "Hi, could you please share the file when you have it ready? It will help me review the contents and move forward with the next steps."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Check the data.",
+    "output": "Hi, could you please review the data and confirm its accuracy? Let me know if you notice anything that needs attention."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Complete this today.",
+    "output": "Hi, could you please try to complete this task by the end of the day? This will help us stay aligned with our timelines."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Review the document.",
+    "output": "Hi, could you please review the document when you have some time and share your feedback? It would be greatly appreciated."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send update today.",
+    "output": "Hi, could you please share an update on this today? It would help us stay on track and plan the next steps accordingly."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Fix ASAP.",
+    "output": "Hi, could you please prioritize resolving this issue as soon as possible? Let me know if you need any support."
+  },
+
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Share access.",
+    "output": "Hi, could you please provide access to the required resources when you get a chance? This will help me proceed with the task."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send the link.",
+    "output": "Hi, could you please share the relevant link when you have it available? It will help me access the required information."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Check logs.",
+    "output": "Hi, could you please review the logs and let me know if you find anything unusual? This will help us identify any potential issues."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Follow up on this.",
+    "output": "Hi, just following up on this item. Could you please share the current status when you have a moment?"
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Update the sheet.",
+    "output": "Hi, could you please update the sheet with the latest information when you get a chance? This will help keep everything aligned."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Check again.",
+    "output": "Hi, could you please take another look at this and confirm everything is correct? I would appreciate your help."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send confirmation.",
+    "output": "Hi, could you please send confirmation once this is completed? It will help us proceed further."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Complete review.",
+    "output": "Hi, could you please complete the review when you have time and share your feedback? It would be helpful for the next steps."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Fix errors.",
+    "output": "Hi, could you please review and correct the errors at your earliest convenience? Let me know once it is done."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send details.",
+    "output": "Hi, could you please share the required details when you have a moment? It will help me move forward with the task."
+  },
+
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Check numbers.",
+    "output": "Hi, could you please verify the numbers and confirm their accuracy? This will help ensure everything is correct."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Respond soon.",
+    "output": "Hi, could you please respond when you get a chance? Your input will help us proceed further."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Look into this issue.",
+    "output": "Hi, could you please investigate this issue and share your findings? It would help us understand the root cause."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send report now.",
+    "output": "Hi, could you please share the report as soon as possible? It is required for the next steps."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Finish work.",
+    "output": "Hi, could you please complete the work at your earliest convenience and confirm once it is done?"
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Update status.",
+    "output": "Hi, could you please provide a status update when you have time? It will help us stay aligned on progress."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Check and update.",
+    "output": "Hi, could you please review this and make the necessary updates? Let me know once completed."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send final version.",
+    "output": "Hi, could you please share the final version once it is ready? It will help us proceed further."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Review ASAP.",
+    "output": "Hi, could you please review this as soon as possible? Your feedback is important for moving ahead."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Confirm this.",
+    "output": "Hi, could you please confirm this when you have a moment? It will help us ensure everything is aligned."
+  },
+
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send notes.",
+    "output": "Hi, could you please share the meeting notes when you get a chance? It will help us keep track of key discussions."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Check issue.",
+    "output": "Hi, could you please review the issue and let me know your findings? This will help us move forward."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Share feedback.",
+    "output": "Hi, could you please share your feedback when you have time? It would be valuable for improving the outcome."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Update tracker.",
+    "output": "Hi, could you please update the tracker with the latest progress when you get a chance? This will help maintain visibility."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send data.",
+    "output": "Hi, could you please share the required data when you have it ready? It will help with further analysis."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Check formatting.",
+    "output": "Hi, could you please review the formatting and make any necessary corrections? This will help improve readability."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send update.",
+    "output": "Hi, could you please share an update when you have a moment? It will help us stay aligned on progress."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Fix formatting.",
+    "output": "Hi, could you please correct the formatting issues when you have time? Let me know once completed."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Review again.",
+    "output": "Hi, could you please review this again and confirm everything looks good? I would appreciate your support."
+  },
+  {
+    "instruction": "Expand this email into a detailed version.",
+    "input": "Send details now.",
+    "output": "Hi, could you please share the details as soon as possible? It will help us proceed without delays."
+  }
+
+]
+
+out_filename = "emails_short_expand_based.jsonl"
+
+with open(out_filename, "w") as f:
+    for example in data:
+        record = {
+            "instruction": example["instruction"],
+            "input": example["input"],
+            "output": example["output"]
+        }
+        f.write(json.dumps(record) + "\n")
+
+print(f"Generated {len(data)} examples in {out_filename}")

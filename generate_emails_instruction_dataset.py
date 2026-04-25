@@ -1,0 +1,222 @@
+import json
+
+data=[
+ {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Send me the update.",
+    "output": "Hi, could you please share an update when you get a chance? I would appreciate it."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "I need this done fast.",
+    "output": "Please prioritize this task and complete it at the earliest."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "This is confusing fix it.",
+    "output": "This is a bit unclear. Could you please review and clarify?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "You need to fix this.",
+    "output": "Let’s work together to address this issue and find a solution."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Send file asap.",
+    "output": "Could you please send the file as soon as possible?"
+  },
+  {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Give me access.",
+    "output": "Hi, could you please provide access when you have a moment? Thank you."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "Check this and tell me.",
+    "output": "Please review this and share your feedback."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "You didn’t do this right.",
+    "output": "This may need some adjustments. Could you please take another look?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "Fix this issue now.",
+    "output": "Let’s address this issue together and resolve it as soon as possible."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Update me soon.",
+    "output": "Please provide an update at your earliest convenience."
+  },
+
+  {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Send report today.",
+    "output": "Hi, could you please share the report today when you have a chance? Thank you."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "I didn’t get anything from you.",
+    "output": "I have not received any updates yet. Please share when available."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "This is wrong.",
+    "output": "This may not be accurate. Could you please review it?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "You forgot this.",
+    "output": "It looks like this might have been missed. Let’s update it together."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Join meeting.",
+    "output": "Please join the meeting at the scheduled time."
+  },
+  {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Fix this quickly.",
+    "output": "Hi, could you please prioritize this and resolve it soon? I appreciate your support."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "Tell me what’s going on.",
+    "output": "Please provide an update on the current status."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "I don’t understand this.",
+    "output": "I’m having some difficulty understanding this. Could you please clarify?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "You need to update this.",
+    "output": "Let’s update this together to ensure everything is accurate."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Send details.",
+    "output": "Please provide the required details."
+  },
+
+  {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Check and update.",
+    "output": "Hi, could you please review and update this when you have time? Thank you."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "Finish this now.",
+    "output": "Please complete this task at the earliest."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "This doesn’t make sense.",
+    "output": "This is a bit unclear. Could you please provide more details?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "Fix the errors.",
+    "output": "Let’s work on resolving these errors together."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Send link.",
+    "output": "Please share the link."
+  },
+  {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Update status.",
+    "output": "Hi, could you please share a status update when you get a chance? Thank you."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "I need answers.",
+    "output": "Please provide the necessary information at your earliest convenience."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "You didn’t check properly.",
+    "output": "This may not have been reviewed thoroughly. Could you please take another look?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "Do this task.",
+    "output": "Let’s work on completing this task together."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Review asap.",
+    "output": "Please review this as soon as possible."
+  },
+
+  {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Send final version.",
+    "output": "Hi, could you please share the final version when it is ready? Thank you."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "I didn’t see your reply.",
+    "output": "I have not seen your response yet. Please share an update when possible."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "This is not good.",
+    "output": "This may need some improvement. Could you please review it?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "You missed this task.",
+    "output": "It looks like this task might have been missed. Let’s address it together."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Send notes.",
+    "output": "Please share the meeting notes."
+  },
+  {
+    "instruction": "Rewrite this email in a polite and confident tone.",
+    "input": "Give update now.",
+    "output": "Hi, could you please share an update as soon as possible? Thank you."
+  },
+  {
+    "instruction": "Make this email more professional and concise.",
+    "input": "This is pending for long.",
+    "output": "This has been pending for some time. Please provide an update."
+  },
+  {
+    "instruction": "Improve clarity and make the tone more respectful.",
+    "input": "You made mistake.",
+    "output": "There seems to be a mistake. Could you please review it?"
+  },
+  {
+    "instruction": "Rewrite this email to sound more collaborative.",
+    "input": "Fix this quickly.",
+    "output": "Let’s work together to resolve this as quickly as possible."
+  },
+  {
+    "instruction": "Make this email more formal and structured.",
+    "input": "Check this.",
+    "output": "Please review this."
+  }
+
+
+]
+
+out_filename = "emails_instruction_based.jsonl"
+
+with open(out_filename, "w") as f:
+    for example in data:
+        record = {
+            "instruction": example["instruction"],
+            "input": example["input"],
+            "output": example["output"]
+        }
+        f.write(json.dumps(record) + "\n")
+
+print(f"Generated {len(data)} examples in {out_filename}")

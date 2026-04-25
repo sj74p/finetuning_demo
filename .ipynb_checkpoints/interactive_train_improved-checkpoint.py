@@ -131,12 +131,12 @@ model.print_trainable_parameters()
 # 5) Load Dataset
 print_explanation(
     "Step 5: Load Instruction Dataset",
-    "Loading emails.jsonl with instruction, input, and output fields."
+    "Loading emails_tone_based.jsonl with instruction, input, and output fields."
 )
 
 ask_to_proceed("Load and Format Dataset")
 
-ds = load_dataset("json", data_files="emails.jsonl", split="train")
+ds = load_dataset("json", data_files="emails_tone_based.jsonl", split="train")
 
 
 def format_prompts(example):
@@ -179,7 +179,7 @@ print_explanation(
 ask_to_proceed("Start Training")
 
 args = SFTConfig(
-    output_dir="gemma3-270m-email-instruction-lora_improved",
+    output_dir="gemma3-270m-email-tone-lora-improved",
     use_cpu=(device == "cpu"),
     per_device_train_batch_size=4,
     gradient_accumulation_steps=2,
@@ -214,7 +214,7 @@ print_explanation(
 
 ask_to_proceed("Save Adapter")
 
-ADAPTER_PATH = "gemma3-270m-email-instruction-lora-adapter_improved"
+ADAPTER_PATH = "gemma3-270m-email-tone-lora-adapter-improved"
 
 trainer.model.save_pretrained(ADAPTER_PATH)
 tokenizer.save_pretrained(ADAPTER_PATH)
@@ -253,4 +253,4 @@ print("*" * 50)
 print(f"AFTER FINE-TUNED MODEL:\n{lora_output_text}")
 print("*" * 50)
 
-print("\nNext, run: python interactive_test_improved.py")
+print("\nNext, run: python interactive_test.py")

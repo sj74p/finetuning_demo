@@ -8,6 +8,7 @@ MODEL_ID = "google/gemma-3-270m-it"
 TONE_ADAPTER_DIR = "gemma3-270m-email-tone-lora-adapter"
 GRAMMAR_ADAPTER_DIR = "gemma3-270m-email-grammar-lora-adapter"
 LENGTH_ADAPTER_DIR = "gemma3-270m-email-length-lora-adapter"
+INSTRUCTION_ADAPTER_DIR = "gemma3-270m-email-instruction-lora-adapter"
 
 
 def print_header(text):
@@ -32,6 +33,7 @@ def get_task(choice):
         "6": ("grammar_adapter", "Fix grammar and improve clarity while keeping the meaning exactly the same."),
         "7": ("length_adapter", "Shorten this email while keeping the main meaning."),
         "8": ("length_adapter", "Expand this email into a detailed version."),
+        "9": ("instruction_adapter", None),
     }
     return mapping.get(choice)
 
@@ -51,7 +53,7 @@ def generate_response(model, tokenizer, messages, device, use_adapter=True):
         if use_adapter:
             output = model.generate(
                 **inputs,
-                max_new_tokens=140,
+                max_new_tokens=80,
                 do_sample=False,
                 repetition_penalty=1.2,
                 pad_token_id=tokenizer.eos_token_id,
@@ -61,7 +63,7 @@ def generate_response(model, tokenizer, messages, device, use_adapter=True):
             with model.disable_adapter():
                 output = model.generate(
                     **inputs,
-                    max_new_tokens=140,
+                    max_new_tokens=80,
                     do_sample=False,
                     repetition_penalty=1.2,
                     pad_token_id=tokenizer.eos_token_id,
@@ -74,7 +76,10 @@ def generate_response(model, tokenizer, messages, device, use_adapter=True):
 
 print_header("Initializing Email Assistant Inference")
 
-device = "mps" if torch.backends.mps.is_available() else ("cuda" if torch.cuda.is_available() else "cpu")
+device = "mps" if torch.backends.mps.is_available() else (
+    "cuda" if torch.cuda.is_available() else "cpu"
+)
+
 print(f"Using device: {device.upper()}")
 
 print("Loading tokenizer...")
@@ -110,9 +115,15 @@ try:
         adapter_name="length_adapter"
     )
 
+    print(f"Loading instruction LoRA adapter from '{INSTRUCTION_ADAPTER_DIR}'...")
+    model.load_adapter(
+        INSTRUCTION_ADAPTER_DIR,
+        adapter_name="instruction_adapter"
+    )
+
 except Exception as e:
     print("\n❌ ERROR: Could not load one or more adapter folders.")
-    print("Please make sure tone, grammar, and length adapters are trained and saved correctly.")
+    print("Please make sure all adapters are trained and saved correctly.")
     print(f"Details: {e}")
     sys.exit()
 
@@ -131,6 +142,7 @@ while True:
         "6. Fix grammar and clarity\n"
         "7. Shorten email\n"
         "8. Expand email\n"
+        "9. Custom instruction adapter\n"
         "Type 'quit' or 'exit' to stop.\n"
         "Choose task: "
     ).strip()
@@ -142,10 +154,21 @@ while True:
     task_info = get_task(choice)
 
     if task_info is None:
-        print("Invalid choice. Please choose 1 to 8.")
+        print("Invalid choice. Please choose 1 to 9.")
         continue
 
     adapter_name, instruction = task_info
+
+    if adapter_name == "instruction_adapter":
+        instruction = input("\n[INSTRUCTION]: ").strip()
+
+        if instruction.lower() in ["quit", "exit"]:
+            print("Goodbye!")
+            break
+
+        if not instruction:
+            print("Instruction cannot be empty.")
+            continue
 
     user_input = input("\n[EMAIL]: ").strip()
 
@@ -164,23 +187,31 @@ Original Email:
 {user_input}
 
 Corrected Email:"""
-    elif adapter_name=="length_adapter":
-        prompt = f"""Rewrite the following email based on the task.
 
-Task: {instruction}
+    elif adapter_name == "length_adapter" and instruction.startswith("Shorten"):
+        prompt = f"""Task: {instruction}
 
 Original Email:
 {user_input}
 
-Instructions:
-- Follow the task exactly (shorten or expand)
-- Keep the original meaning
-- Do not add new information
-- Do not explain anything
-- Limit output to 1–2 sentences
-- Do not include any unrelated text
+Shortened Email:"""
 
-Rewritten Email:"""
+    elif adapter_name == "length_adapter" and instruction.startswith("Expand"):
+        prompt = f"""Task: {instruction}
+
+Original Email:
+{user_input}
+
+Expanded Email:"""
+
+    elif adapter_name == "instruction_adapter":
+        prompt = f"""Task: {instruction}
+
+Original Email:
+{user_input}
+
+Output:"""
+
     else:
         prompt = f"""Task: {instruction}
 
@@ -224,11 +255,13 @@ Rewritten Email:"""
     print(f"[BASE MODEL]:\n{base_text if base_text else '(Empty output)'}")
     print("-" * 50)
 
-    if adapter_name == "grammar_adapter":
+    if adapter_name == "tone_adapter":
+        print(f"[TONE LORA MODEL]:\n{lora_text if lora_text else '(Empty output)'}")
+    elif adapter_name == "grammar_adapter":
         print(f"[GRAMMAR LORA MODEL]:\n{lora_text if lora_text else '(Empty output)'}")
     elif adapter_name == "length_adapter":
         print(f"[LENGTH LORA MODEL]:\n{lora_text if lora_text else '(Empty output)'}")
-    else:
-        print(f"[TONE LORA MODEL]:\n{lora_text if lora_text else '(Empty output)'}")
+    elif adapter_name == "instruction_adapter":
+        print(f"[INSTRUCTION LORA MODEL]:\n{lora_text if lora_text else '(Empty output)'}")
 
     print("*" * 50)

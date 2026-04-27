@@ -35,9 +35,7 @@ Original Email:
 {label}:"""
 
 
-def generate_response(model, tokenizer, prompt, adapter_name):
-    model.set_adapter(adapter_name)
-
+def generate_response(model, tokenizer, prompt, adapter_name=None):
     messages = [{"role": "user", "content": prompt}]
 
     inputs = tokenizer.apply_chat_template(
@@ -51,20 +49,32 @@ def generate_response(model, tokenizer, prompt, adapter_name):
     input_length = inputs["input_ids"].shape[1]
 
     with torch.no_grad():
-        output = model.generate(
-            **inputs,
-            max_new_tokens=80,
-            do_sample=False,
-            repetition_penalty=1.2,
-            pad_token_id=tokenizer.eos_token_id,
-            eos_token_id=tokenizer.eos_token_id,
-        )
+        if adapter_name:
+            model.set_adapter(adapter_name)
+            output = model.generate(
+                **inputs,
+                max_new_tokens=80,
+                do_sample=False,
+                repetition_penalty=1.2,
+                pad_token_id=tokenizer.eos_token_id,
+                eos_token_id=tokenizer.eos_token_id,
+            )
+        else:
+            with model.disable_adapter():
+                output = model.generate(
+                    **inputs,
+                    max_new_tokens=80,
+                    do_sample=False,
+                    repetition_penalty=1.2,
+                    pad_token_id=tokenizer.eos_token_id,
+                    eos_token_id=tokenizer.eos_token_id,
+                )
 
     generated_tokens = output[0][input_length:]
     return tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
 
 
-print(f"🚀 NORMAL VS IMPROVED ADAPTER COMPARISON | Device: {device.upper()}")
+print(f"🚀 BASE VS NORMAL VS IMPROVED COMPARISON | Device: {device.upper()}")
 
 tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 
@@ -155,6 +165,15 @@ for case in test_cases:
         label=case["label"]
     )
 
+    print("Generating base model response...")
+    base_output = generate_response(
+        model=model,
+        tokenizer=tokenizer,
+        prompt=prompt,
+        adapter_name=None
+    )
+
+    print(f"Generating {case['normal_adapter']} response...")
     normal_output = generate_response(
         model=model,
         tokenizer=tokenizer,
@@ -162,6 +181,7 @@ for case in test_cases:
         adapter_name=case["normal_adapter"]
     )
 
+    print(f"Generating {case['improved_adapter']} response...")
     improved_output = generate_response(
         model=model,
         tokenizer=tokenizer,
@@ -173,6 +193,9 @@ for case in test_cases:
     print(f"TASK GROUP: {case['group']}")
     print(f"TASK: {case['task']}")
     print(f"INPUT: {case['email']}")
+    print("-" * 80)
+    print("[BASE MODEL OUTPUT]")
+    print(base_output if base_output else "(Empty output)")
     print("-" * 80)
     print("[NORMAL ADAPTER OUTPUT]")
     print(normal_output if normal_output else "(Empty output)")

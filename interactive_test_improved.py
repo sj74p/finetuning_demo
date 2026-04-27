@@ -53,7 +53,7 @@ def generate_response(model, tokenizer, messages, device, use_adapter=True):
         if use_adapter:
             output = model.generate(
                 **inputs,
-                max_new_tokens=80,
+                max_new_tokens=100,
                 do_sample=False,
                 repetition_penalty=1.2,
                 pad_token_id=tokenizer.eos_token_id,
@@ -181,44 +181,26 @@ while True:
         continue
 
     if adapter_name == "grammar_adapter":
-        prompt = f"""Task: {instruction}
-
-Original Email:
-{user_input}
-
-Corrected Email:"""
+        label = "Corrected Email"
 
     elif adapter_name == "length_adapter" and instruction.startswith("Shorten"):
-        prompt = f"""Task: {instruction}
-
-Original Email:
-{user_input}
-
-Shortened Email:"""
+        label = "Shortened Email"
 
     elif adapter_name == "length_adapter" and instruction.startswith("Expand"):
-        prompt = f"""Task: {instruction}
-
-Original Email:
-{user_input}
-
-Expanded Email:"""
+        label = "Expanded Email"
 
     elif adapter_name == "instruction_adapter":
-        prompt = f"""Task: {instruction}
-
-Original Email:
-{user_input}
-
-Output:"""
+        label = "Output"
 
     else:
-        prompt = f"""Task: {instruction}
+        label = "Rewritten Email"
+
+    prompt = f"""Task: {instruction}
 
 Original Email:
 {user_input}
 
-Rewritten Email:"""
+{label}:"""
 
     messages = [
         {

@@ -59,7 +59,7 @@ Each dataset contains:
 - Input email
 - Expected output
 
-###Step 2: Train Normal LoRA Adapters
+### Step 2: Train Normal LoRA Adapters
 
 Train the baseline version of each adapter:
 ```bash
@@ -71,7 +71,7 @@ python interactive_instruction_train.py
 
 The normal adapters are trained with 3 epochs and provide the baseline for comparison.
 
-###Step 3: Multi-Task Interactive Test
+### Step 3: Multi-Task Interactive Test
 
 Run the interactive demo:
 ```bash
@@ -82,7 +82,7 @@ You can:
 - Select a task
 View the transformed output
 
-###Step 4: Train Improved LoRA Adapters
+### Step 4: Train Improved LoRA Adapters
 To train improved versions, follow the same steps as Step 2, but use the improved scripts:
 ```bash
 python interactive_train_improved.py
@@ -93,7 +93,7 @@ python interactive_instruction_train_improved.py
 
 The improved adapters are trained with 15 epochs to compare whether longer training improves output quality and instruction-following behavior.
 
-###Step 5: Compare Normal vs Improved Adapters
+### Step 5: Compare Normal vs Improved Adapters
 
 Run the comparison script:
 ```bash

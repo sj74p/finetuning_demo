@@ -44,8 +44,8 @@ If you have an NVIDIA GPU, the scripts are designed to automatically detect cuda
 If you do not have a GPU, the scripts will fall back to cpu.
 
 
-###🏗 Demo Flow: Step-by-Step
-###Step 1: Data Generation
+## Demo Flow: Step-by-Step
+### Step 1: Data Generation
 
 Generate synthetic datasets for each task:
 ```bash

@@ -38,6 +38,13 @@ def get_task(choice):
     return mapping.get(choice)
 
 
+def clean_output(text):
+    unwanted_tokens = ["<unused95>", "<unused94>", "<unused93>"]
+    for token in unwanted_tokens:
+        text = text.replace(token, "")
+    return text.strip()
+
+
 def generate_response(model, tokenizer, messages, device, use_adapter=True):
     inputs = tokenizer.apply_chat_template(
         messages,
@@ -53,7 +60,7 @@ def generate_response(model, tokenizer, messages, device, use_adapter=True):
         if use_adapter:
             output = model.generate(
                 **inputs,
-                max_new_tokens=100,
+                max_new_tokens=80,
                 do_sample=False,
                 repetition_penalty=1.2,
                 pad_token_id=tokenizer.eos_token_id,
@@ -71,7 +78,8 @@ def generate_response(model, tokenizer, messages, device, use_adapter=True):
                 )
 
     generated_tokens = output[0][input_length:]
-    return tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+    text = tokenizer.decode(generated_tokens, skip_special_tokens=True).strip()
+    return clean_output(text)
 
 
 print_header("Initializing Email Assistant Inference")

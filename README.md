@@ -1,174 +1,132 @@
-# 📧 Gemma 3 Multi-Task Email Assistant: Fine-Tuning Demo
+# 📧 Gemma 3 Multi-Task Email Assistant Fine Tuning Demo
 
-This repository demonstrates how to fine-tune the **Gemma 3 270M** model using **LoRA (Low-Rank Adaptation)** for multiple specialized workplace communication tasks. Instead of one general model, we create specialized "adapters" that can transform blunt emails into professional ones, fix grammar, or adjust the length of the message.
+This project demonstrates how to fine-tune the **Gemma 3 270M** model using **LoRA (Low-Rank Adaptation)** for multiple workplace email transformation tasks.
+
+Instead of relying on a single model, this system uses **task-specific adapters** to handle:
+
+- Tone transformation
+- Grammar correction
+- Length control, including shorten and expand
+- Instruction-based rewriting
 
 ---
 
 ## 🚀 Key Features
 
-- **Multi-Adapter Support**: Load multiple LoRA adapters (Tone, Grammar, Length, Instructions) into a single base model.
-- **Interactive Training**: Conceptual walkthroughs explaining LoRA, Tokenization, and Hardware.
-- **Real-Time Testing**: A side-by-side comparison of the Base model vs. the specialized Fine-tuned adapters.
-- **Hardware Optimized**: Automatic detection for **Apple Silicon (MPS)**, **NVIDIA (CUDA)**, and **CPU**.
+- **Multi-Adapter Architecture**: Separate LoRA adapters for each task
+- **Baseline vs Improved Comparison**: 3 epochs vs 15 epochs training
+- **Interactive Testing CLI**: Real-time email transformation
+- **RunPod GPU Support**: Faster cloud-based training for larger datasets
+- **Hardware Flexible**: Supports CPU, Apple Silicon MPS, and NVIDIA CUDA
 
 ---
 
-## 📖 Table of Contents
-1. [Prerequisites & Setup](#-prerequisites--setup)
-2. [Demo Flow: Step-by-Step](#-demo-flow-step-by-step)
-3. [Specialized Tasks](#-specialized-tasks)
-4. [Conceptual Lessons](#-conceptual-lessons)
-5. [Troubleshooting](#-troubleshooting)
+## 🛠 Setup
 
----
-
-## 🛠 Prerequisites & Setup
-
-### 1. Hardware
-- **Recommended**: Mac (M1/M2/M3) or NVIDIA GPU (8GB+ VRAM).
-- **Minimum**: Modern CPU (Note: Training will be slow).
-
-### 2. Installation
-```bash
-# Clone the repository
-git clone <repository-url>
-cd finetuning_demo
-
-# Install dependencies
-pip install -r requirements.txt
-```
-
-### 3. Hugging Face Access
-Gemma 3 is a gated model.
-1. Accept the license on [Hugging Face](https://huggingface.co/google/gemma-3-270m-it).
-2. Create a [Write Token](https://huggingface.co/settings/tokens).
-3. Log in:
-   ```bash
-   huggingface-cli login
-   hf auth login
-   ```
-### 4. RunPod Setup (GPU Environment)
-
-This project was developed and tested using **RunPod** for GPU-based training and inference.
-
-#### Step 1: Create a Pod
-- Go to https://runpod.io
-- Select a GPU (recommended: **A100 / RTX 4090 / 3090**)
-- Choose a template with Python or PyTorch pre-installed
-
-#### Step 2: Clone Repository
 ```bash
 git clone https://github.com/sj74p/finetuning_demo.git
 cd finetuning_demo
+pip install -r requirements.txt
 ```
+Logging into Hugging Face
 
-**Note:** Large-scale training was performed on RunPod for faster GPU execution. Since RunPod environments are temporary, any local data or trained adapters will be lost when the pod is stopped. Ensure important files are saved externally.
+```bash
+huggingface-cli login
+hf auth login
+```
+### Hardware-Specific Instructions
+The codebase is optimized for Apple Silicon (MPS). If you are on Windows or Linux, follow these adjustments:
 
----
+#### Windows/Linux (NVIDIA CUDA)
+If you have an NVIDIA GPU, the scripts are designed to automatically detect cuda. Ensure you have the NVIDIA drivers and CUDA Toolkit installed.
 
-## 🏗 Demo Flow: Step-by-Step
+#### Windows/Linux (CPU Only)
+If you do not have a GPU, the scripts will fall back to cpu.
 
-### Step 1: Data Generation
-Generate synthetic datasets for each task. Each dataset follows an instruction-based format with an input email and expected output.
+
+###🏗 Demo Flow: Step-by-Step
+###Step 1: Data Generation
+
+Generate synthetic datasets for each task:
 ```bash
 python generate_emails_tone_dataset.py
 python generate_emails_grammar_dataset.py
 python generate_emails_short_expand_dataset.py
 python generate_emails_instruction_dataset.py
 ```
+Each dataset contains:
+- Instruction
+- Input email
+- Expected output
 
-### Step 2: Interactive Fine-Tuning
-Train the LoRA adapters. Each script follows a conceptual walkthrough.
+###Step 2: Train Normal LoRA Adapters
+
+Train the baseline version of each adapter:
 ```bash
-# Train the Tone adapter (Friendly, Assertive, etc.)
 python interactive_train.py
-
-# Train other specialized adapters
 python interactive_grammar_train.py
 python interactive_short_expand_train.py
 python interactive_instruction_train.py
 ```
-The normal adapters are trained with 3 epochs.
-This version helps establish a baseline for each task-specific adapter.
 
-### Step 3: Multi-Task Interactive Test
-Run the interactive demo to test all adapters in one place. choose the task to perform and type an email.
+The normal adapters are trained with 3 epochs and provide the baseline for comparison.
+
+###Step 3: Multi-Task Interactive Test
+
+Run the interactive demo:
 ```bash
 python interactive_test.py
 ```
-Supported options include:
+You can:
+- Enter an email
+- Select a task
+View the transformed output
 
-- Friendly, assertive, apologetic, persuasive, and professional tone rewriting
-- Grammar and clarity correction
-- Email shortening and expansion
-- Custom instruction-based rewriting
----
-### Step 4: Train Improved LoRA Adapters
-To train improved versions, follow the same steps as Step 2, but use the *_improved.py scripts:
+###Step 4: Train Improved LoRA Adapters
+To train improved versions, follow the same steps as Step 2, but use the improved scripts:
 ```bash
-# Train improved adapters with 20 epochs
 python interactive_train_improved.py
 python interactive_grammar_train_improved.py
 python interactive_short_expand_train_improved.py
 python interactive_instruction_train_improved.py
 ```
-These improved adapters are trained with 15 epochs(Normal adapter trained with 3 epochs), enabling better:
-- Instruction adherence
-- Output consistency
-- Tone accuracy
-- Length control
-### Step 5: Compare Normal vs Improved Adapters
+
+The improved adapters are trained with 15 epochs to compare whether longer training improves output quality and instruction-following behavior.
+
+###Step 5: Compare Normal vs Improved Adapters
 
 Run the comparison script:
 ```bash
 python compare_all_models.py
 ```
+
 This compares:
+- Base model
+- Normal adapters trained with 3 epochs
+- Improved adapters trained with 15 epochs
 
-- Normal adapters (3 epochs)
-- Improved adapters (15 epochs)
+### Key Learnings
+- More epochs do not always improve output quality
+- Different tasks respond differently to training duration
+- Dataset quality is critical for meaning preservation
+- Length transformation is the most challenging task
+- Separate adapters reduce task confusion compared to one combined adapter
 
-The comparison highlights improvements in:
+### RunPod Usage Note
+For larger training runs, RunPod was used to leverage GPU acceleration and reduce training time.
 
-- Output quality
-- Meaning preservation
-- Grammar correction
-- Task-specific performance
-## 🎯 Specialized Tasks
+RunPod provides a temporary Linux environment, which means:
+- Any data, trained adapters, or checkpoints stored locally in the pod may be lost once the pod is stopped or terminated
+- Important files should be pushed to GitHub or saved externally
+- Trained adapters should be downloaded or stored outside the pod if they need to be reused later
+### Troubleshooting
+- Out of Memory (OOM): Reduce per_device_train_batch_size
+- Gated Model Access: Make sure the Gemma model license is accepted on Hugging Face
+- Missing Packages: Run pip install -r requirements.txt
+- Slow Training: Check whether the script is running on CPU instead of CUDA or MPS
+- Verbose Base Model Output: The base model may generate explanations, subjects, greetings, or extra text. The adapters are designed to produce more direct task-specific outputs
+Truncated Outputs: Increase max_new_tokens
+Meaning Drift: Improve dataset quality and add more meaning-preserving examples
 
-| Task | Adapter Name | Description |
-| :--- | :--- | :--- |
-| **Tone** | `tone_adapter` | Friendly, Assertive, Apologetic, Persuasive, Professional. |
-| **Grammar** | `grammar_adapter` | Fixes typos, clarity, and phrasing while keeping the meaning. |
-| **Length** | `length_adapter` | Shortens or Expands the email as needed. |
-| **Custom** | `instruction_adapter` | Follows any custom natural language instruction. |
-
----
-
-## 🎓 Conceptual Lessons
-
-### 1. LoRA (Low-Rank Adaptation)
-We don't train all 270 million parameters. Instead, we train a tiny "adapter" (layers added to the model) that contains only ~1-5% of the total weights. This makes fine-tuning fast and memory-efficient.
-
-### 2. Tokenization & Chat Templates
-Models don't read words; they read numbers. We use the **Gemma 3 Tokenizer** to convert text. We also use **Chat Templates** to structure the input so the model understands the difference between a "User" and an "Assistant."
-
-### 3. Hyperparameters
-- **Learning Rate**: How big of a "step" the model takes when learning. Too high = collapse; too low = never learns.
-- **Epochs**: How many times the model reads the entire "manners book."
-- **Repetition Penalty**: Prevents the model from getting stuck in loops (e.g., "Thank you thank you thank you...").
-
----
-
-## 🛠 Troubleshooting
-
-- **Out of Memory (OOM)**: Reduce per_device_train_batch_size to 1.
-- **Gated Model Access**: Make sure you accepted the Gemma license and logged in with Hugging Face.
-- **Missing Packages**: Run pip install -r requirements.txt.
-- **Slow Training**: Check whether the script is running on CPU instead of CUDA or MPS.
-- **Noisy Base Model Output**: The base model may generate explanations, subjects, greetings, or extra text. The fine-tuned adapters are designed to produce more direct task-specific outputs.
-
----
-
-## ⚖ License
+### License
 Apache 2.0

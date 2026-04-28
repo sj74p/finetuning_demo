@@ -107,7 +107,6 @@ This compares:
 
 ### Key Learnings
 - More epochs do not always improve output quality
-- Different tasks respond differently to training duration
 - Dataset quality is critical for meaning preservation
 - Length transformation is the most challenging task
 - Separate adapters reduce task confusion compared to one combined adapter
@@ -125,8 +124,7 @@ RunPod provides a temporary Linux environment, which means:
 - Missing Packages: Run pip install -r requirements.txt
 - Slow Training: Check whether the script is running on CPU instead of CUDA or MPS
 - Verbose Base Model Output: The base model may generate explanations, subjects, greetings, or extra text. The adapters are designed to produce more direct task-specific outputs
-Truncated Outputs: Increase max_new_tokens
-Meaning Drift: Improve dataset quality and add more meaning-preserving examples
+- Meaning Drift: Improve dataset quality and add more meaning-preserving examples
 
 ### License
 Apache 2.0
